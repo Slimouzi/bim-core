@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bim-core"
+version = "0.1.0"
+description = "Contrats communs (types de domaine) partagés par les MCP d'audit/publication BIM."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Stanislas Limouzi", email = "stanislas@bimdata.io" },
+]
+dependencies = [
+    # Borne haute alignée sur audit-bim-i3f (``pydantic>=2.6,<3``) : en tant
+    # que brique socle partagée par tous les MCP, bim-core ne doit pas laisser
+    # passer un pydantic 3.x avant validation coordonnée de l'écosystème.
+    "pydantic>=2.5,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+]
+
+[tool.setuptools.packages.find]
+include = ["bim_core*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
