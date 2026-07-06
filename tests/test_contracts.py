@@ -29,6 +29,32 @@ def test_finding_roundtrip():
     assert f.short_label() == "IfcWall — Mur R+1"
 
 
+def test_finding_field_path_optional_default_none():
+    # Rétro-compatible : field_path est optionnel, None par défaut, et présent
+    # dans le dump (contrat neutre exploitable par les consommateurs).
+    f = bc.Finding(
+        theme=bc.Theme.NAMING_ZONE,
+        severity=bc.Severity.HIGH,
+        error_type=bc.ErrorType.NAMING_MISSING,
+    )
+    assert f.field_path is None
+    assert "field_path" in f.model_dump()
+
+
+def test_finding_field_path_roundtrip():
+    f = bc.Finding(
+        theme=bc.Theme.NAMING_ZONE,
+        severity=bc.Severity.MEDIUM,
+        error_type=bc.ErrorType.NAMING_NOT_IN_LIST,
+        element_uuid="z1",
+        ifc_type="IfcZone",
+        field_path="IfcZone.ObjectType",
+    )
+    data = f.model_dump(mode="json")
+    assert data["field_path"] == "IfcZone.ObjectType"
+    assert bc.Finding.model_validate(data) == f
+
+
 def test_severity_ordered():
     assert bc.Severity.ordered()[0] is bc.Severity.CRITICAL
     assert bc.Severity.ordered()[-1] is bc.Severity.INFO

@@ -131,6 +131,11 @@ class Finding(BaseModel):
         actual: Valeur réellement trouvée. ``None`` = manquant.
         ref_cch: Référence du chapitre du CCH (ex: ``"Chap 6.2"``).
         recommended_action: Action corrective concrète (phrase impérative).
+        field_path: Chemin **neutre** de l'attribut/propriété audité
+            (ex: ``"IfcZone.ObjectType"``, ``"Pset_SpaceCommon.IsExternal"``).
+            Générique — aucun concept métier I3F ; permet à un consommateur de
+            distinguer des contrôles sans dépendre du libellé du finding.
+            ``None`` par défaut (rétro-compatible).
     """
 
     theme: Theme
@@ -151,6 +156,14 @@ class Finding(BaseModel):
     ref_cch: str | None = Field(None, description="Référence du chapitre du CCH.")
     recommended_action: str | None = Field(
         None, description="Action concrète à effectuer pour corriger."
+    )
+
+    field_path: str | None = Field(
+        None,
+        description=(
+            "Chemin neutre de l'attribut/propriété audité, ex. 'IfcZone.ObjectType'. "
+            "Générique (aucun concept métier) ; None par défaut (rétro-compatible)."
+        ),
     )
 
     def short_label(self) -> str:
