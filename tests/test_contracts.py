@@ -95,3 +95,10 @@ def test_model_snapshot_index():
     assert snap.of_class("IfcWall")[0]["uuid"] == "e1"
     assert snap.element_by_uuid["s1"]["type"] == "IfcSpace"
     assert snap.summary()["n_spaces"] == 1
+
+
+def test_model_snapshot_extraction_errors():
+    # Défaut vide, et un snapshot partiel porte ses erreurs de route (C2).
+    assert bc.ModelSnapshot().extraction_errors == []
+    snap = bc.ModelSnapshot(extraction_errors=["get_raw_elements: HTTPError: 401"]).index()
+    assert snap.extraction_errors == ["get_raw_elements: HTTPError: 401"]
