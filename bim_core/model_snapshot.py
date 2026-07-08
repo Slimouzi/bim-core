@@ -29,6 +29,12 @@ class ModelSnapshot:
     elements: list[dict] = field(default_factory=list)
     structure_tree: list[dict] = field(default_factory=list)
 
+    # Erreurs d'extraction par route (ex: « get_raw_elements: HTTPError: 401 »).
+    # Non vide ⇒ le snapshot est **partiel** : un consommateur (audit) doit refuser
+    # de rendre un verdict métier plutôt que de confondre « route en échec » et
+    # « modèle vide ». Peuplé par ``bimdata_read.extract_snapshot``.
+    extraction_errors: list[str] = field(default_factory=list)
+
     # Index dérivés (construits dans `index()`)
     elements_by_type: dict[str, list[dict]] = field(default_factory=dict)
     element_by_uuid: dict[str, dict] = field(default_factory=dict)
