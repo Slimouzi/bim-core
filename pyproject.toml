@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bim-core"
-version = "0.1.2"
+version = "0.2.0"
 description = "Contrats communs (types de domaine) partagés par les MCP d'audit/publication BIM."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -30,6 +30,27 @@ include = ["bim_core*"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+# Jeu de règles EXPLICITE, aligné sur audit-bim-i3f. Sans ce `select`, ruff
+# applique ses règles par défaut — qui s'élargissent d'une version à l'autre :
+# la CI (qui installe la dernière version) se mettait alors à échouer sur du
+# code inchangé. La version de ruff est par ailleurs épinglée côté CI.
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # longueur de ligne (gérée par le formatter)
+    "B008",  # appels de fonction dans les valeurs par défaut
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]  # asserts autorisés dans les tests
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
