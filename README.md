@@ -75,6 +75,16 @@ La migration reste appelable explicitement — `migrate_envelope_quantities_lega
 `migrate_computed_base_quantities_legacy_to_v1(...)` — pour convertir un fichier
 une fois pour toutes plutôt que de le migrer à chaque lecture.
 
+### Contrats à venir
+
+- **Findings préliminaires géométriques** — PR 3bis, *après inventaire des 5
+  JSON réels* (`*_space_inventory.json`, `*_space_clash_findings.json`,
+  `*_surface_loss.json`, `*_boundaries.json`, `*_openings_check.json`). Ce n'est
+  pas un contrat mais cinq, aux formes distinctes : les formaliser d'un bloc
+  sans inventaire préalable produirait un contrat approximatif.
+- **Manifeste de rapport** — en attente d'un **producteur réel**. Aucun code ne
+  l'émet aujourd'hui ; pas de contrat spéculatif.
+
 ## Provenance
 
 Extrait du MCP monolithique `audit-bim-i3f`. La référence fonctionnelle gelée

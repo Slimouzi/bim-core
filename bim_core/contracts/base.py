@@ -158,8 +158,12 @@ def resolve_document(
             f"Le document doit être un objet JSON, reçu {type(doc).__name__}{where}."
         )
 
-    declared = doc.get("schema")
-    if declared is not None:
+    # Présence de la CLÉ, pas véracité de la valeur : un payload qui déclare
+    # explicitement ``"schema": null`` a bien un schéma — il est simplement
+    # invalide. Le traiter comme « absent » l'enverrait en migration legacy,
+    # c'est-à-dire accepterait sous warning ce qui doit être refusé durement.
+    if "schema" in doc:
+        declared = doc["schema"]
         if declared == expected_schema:
             return doc
         raise UnknownSchemaError(

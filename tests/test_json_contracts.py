@@ -143,6 +143,25 @@ def test_other_known_schema_is_still_refused():
         parse_computed_base_quantities(doc)
 
 
+@pytest.mark.parametrize("declared", [None, "", 0, False, 1, {"v": 1}])
+def test_schema_key_present_but_invalid_is_hard_refusal(declared):
+    """``"schema": null`` (ou toute valeur invalide) = schéma **présent** et
+    inconnu → refus dur. Le traiter comme absent l'enverrait en migration
+    legacy, donc l'accepterait sous simple avertissement."""
+    doc = _legacy_envelope()  # forme legacy par ailleurs parfaitement reconnue
+    doc["schema"] = declared
+    with pytest.raises(UnknownSchemaError):
+        parse_envelope_quantities(doc)
+
+
+def test_schema_null_is_refused_even_out_of_strict_mode(monkeypatch):
+    monkeypatch.delenv(STRICT_SCHEMA_ENV, raising=False)
+    doc = _legacy_quantities()
+    doc["schema"] = None
+    with pytest.raises(UnknownSchemaError):
+        parse_computed_base_quantities(doc)
+
+
 # ── schema absent + forme legacy connue → accepté avec warning ─────────
 
 
