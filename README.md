@@ -17,6 +17,7 @@ consomment, afin qu'un découpage ne change ni les livrables ni les findings.
 | `bim_core.write_plan` | `WritePlan`, `ActionResult`, `WritePlanKind` (pattern prepare/apply) |
 | `bim_core.model_snapshot` | `ModelSnapshot` |
 | `bim_core.contracts` | contrats **JSON versionnés** échangés entre MCP (voir ci-dessous) |
+| `bim_core.paths` | sandbox de chemins d'I/O (confinement, extensions, taille, overwrite) — profils historiques `audit` / `ifc` |
 
 Types prévus plus tard : `GeometrySnapshot`, `Evidence`, `QuantifiedValue`.
 
@@ -84,6 +85,18 @@ une fois pour toutes plutôt que de le migrer à chaque lecture.
   sans inventaire préalable produirait un contrat approximatif.
 - **Manifeste de rapport** — en attente d'un **producteur réel**. Aucun code ne
   l'émet aujourd'hui ; pas de contrat spéculatif.
+
+## Sandbox de chemins (`bim_core.paths`)
+
+Un serveur MCP piloté par un agent distant doit refuser tout chemin hostile
+avant de toucher au disque. Ce module porte cette validation, avec les deux
+profils historiques (`audit`, `ifc`) qui reproduisent le comportement exact de
+chaque MCP.
+
+Migré **verbatim** depuis `bim-sandbox` : corps de fonctions inchangés, tests de
+parité repris tels quels. Réécrire un garde-fou de sécurité à l'occasion d'un
+déménagement introduirait un risque sans contrepartie. `bim-sandbox` devient un
+shim de compatibilité, décommissionné quand plus aucun MCP ne l'importera.
 
 ## Provenance
 

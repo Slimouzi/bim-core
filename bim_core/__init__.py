@@ -11,11 +11,14 @@ Deux familles :
 - **contrats JSON versionnés** (:mod:`bim_core.contracts`) — payloads échangés
   *sur disque* entre MCP, avec validation, normalisation, migration legacy et
   erreurs typées centralisées.
+- **sandbox de chemins** (:mod:`bim_core.paths`) — validation des chemins d'I/O
+  exposés par un serveur MCP (confinement, extensions, taille, overwrite).
+  Migrée depuis ``bim-sandbox``, qui devient un shim de compatibilité.
 """
 
 from __future__ import annotations
 
-from . import contracts
+from . import contracts, paths
 from .bim_object import BimObject, ClassificationRef
 from .filters import (
     DEFAULT_LIMIT,
@@ -33,6 +36,8 @@ from .write_plan import ActionResult, WritePlan, WritePlanKind
 __all__ = [
     # contrats JSON versionnés (sous-package)
     "contracts",
+    # sandbox de chemins I/O
+    "paths",
     # findings
     "Severity",
     "Theme",
@@ -57,4 +62,4 @@ __all__ = [
     "ModelSnapshot",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
