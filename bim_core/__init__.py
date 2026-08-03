@@ -13,7 +13,8 @@ Deux familles :
   erreurs typées centralisées.
 - **sandbox de chemins** (:mod:`bim_core.paths`) — validation des chemins d'I/O
   exposés par un serveur MCP (confinement, extensions, taille, overwrite).
-  Migrée depuis ``bim-sandbox``, qui devient un shim de compatibilité.
+  Migrée depuis ``bim-sandbox``, décommissionné : c'est ici la seule
+  implémentation.
 """
 
 from __future__ import annotations
