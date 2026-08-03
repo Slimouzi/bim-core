@@ -95,8 +95,13 @@ chaque MCP.
 
 Migré **verbatim** depuis `bim-sandbox` : corps de fonctions inchangés, tests de
 parité repris tels quels. Réécrire un garde-fou de sécurité à l'occasion d'un
-déménagement introduirait un risque sans contrepartie. `bim-sandbox` devient un
-shim de compatibilité, décommissionné quand plus aucun MCP ne l'importera.
+déménagement introduirait un risque sans contrepartie.
+
+La migration est **terminée** : `audit-bim-i3f` et `ifc-geometry-mcp` importent
+`bim_core.paths` directement, et `bim-sandbox` n'a plus aucun consommateur. Le
+dépôt survit en shim de ré-exports (v0.2.0) pour ne pas casser d'éventuels
+call-sites externes ; il ne reçoit plus d'évolution. Tout correctif ou ajout à la
+sandbox se fait **ici**.
 
 ## Provenance
 

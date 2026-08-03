@@ -1,10 +1,13 @@
 """Sandbox de chemins I/O — implémentation commune + deux profils historiques.
 
-Migré **verbatim** depuis ``bim-sandbox`` (décommission progressive, PR 5) :
-les corps de fonctions sont inchangés, seule la docstring de module l'est. Ce
-choix est délibéré — la sandbox est un garde-fou de sécurité, la réécrire à
-l'occasion d'un déménagement introduirait un risque sans contrepartie.
-``bim_sandbox`` devient un shim de compatibilité le temps que les MCP migrent.
+Migré **verbatim** depuis ``bim-sandbox`` : les corps de fonctions sont
+inchangés, seule la docstring de module l'est. Ce choix est délibéré — la
+sandbox est un garde-fou de sécurité, la réécrire à l'occasion d'un
+déménagement introduirait un risque sans contrepartie.
+
+Ce module est désormais la **seule** implémentation : la décommission de
+``bim-sandbox`` est terminée (plus aucun consommateur), le dépôt d'origine
+n'étant plus qu'un shim de ré-exports figé.
 
 Un serveur MCP piloté par un agent distant doit refuser tout chemin hostile avant
 de toucher au disque. Ce module fournit la validation partagée, avec **deux
