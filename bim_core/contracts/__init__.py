@@ -9,6 +9,9 @@ Contrats disponibles :
 
 - ``computed_base_quantities/v1`` — BaseQuantities calculées, keyées ``global_id``.
 - ``envelope_quantities/v1`` — surfaces d'enveloppe agrégées par type de mur.
+- ``spatial_evidence/v1`` — boîtes englobantes, contenances, encombrements.
+  Contrat **né versionné** : aucune forme legacy, un payload sans ``schema`` est
+  refusé dans tous les modes.
 
 Politique de schéma (détail dans :mod:`bim_core.contracts.base`) : schéma connu
 accepté, schéma inconnu **refusé durement**, schéma absent accepté uniquement
@@ -60,21 +63,37 @@ from .errors import (
     MissingSchemaError,
     UnknownSchemaError,
 )
+from .spatial_evidence import (
+    CONTAINMENT_METHODS,
+    GEOMETRY_STATUS,
+    SCHEMA_SPATIAL_EVIDENCE_V1,
+    BoundingBox,
+    Containment,
+    EvidenceCoverage,
+    EvidenceSelection,
+    ObjectEvidence,
+    SpaceEvidence,
+    SpatialEvidenceV1,
+    load_spatial_evidence,
+    parse_spatial_evidence,
+)
 
 #: Identifiants de schéma reconnus par cette version de bim-core.
-KNOWN_SCHEMAS = frozenset({SCHEMA_COMPUTED_BASE_QUANTITIES_V1, SCHEMA_ENVELOPE_QUANTITIES_V1})
+KNOWN_SCHEMAS = frozenset(
+    {
+        SCHEMA_COMPUTED_BASE_QUANTITIES_V1,
+        SCHEMA_ENVELOPE_QUANTITIES_V1,
+        SCHEMA_SPATIAL_EVIDENCE_V1,
+    }
+)
 
 __all__ = [
-    "KNOWN_SCHEMAS",
-    "SCHEMA_COMPUTED_BASE_QUANTITIES_V1",
-    "SCHEMA_ENVELOPE_QUANTITIES_V1",
-    "SOURCE_COMPUTED",
-    "STATUS_COMPUTED",
-    "STRICT_SCHEMA_ENV",
-    "WARN_LEGACY_SCHEMA_MISSING",
+    "BoundingBox",
+    "CONTAINMENT_METHODS",
     "ComputedBaseQuantitiesV1",
     "ComputedCoverage",
     "ComputedQuantity",
+    "Containment",
     "ContractError",
     "ContractPayload",
     "ContractSource",
@@ -82,18 +101,34 @@ __all__ = [
     "EnvelopeQuantitiesV1",
     "EnvelopeSummary",
     "EnvelopeTypeRow",
+    "EvidenceCoverage",
+    "EvidenceSelection",
+    "GEOMETRY_STATUS",
+    "KNOWN_SCHEMAS",
     "LegacySchemaWarning",
     "LegacyShapeError",
     "MissingSchemaError",
+    "ObjectEvidence",
+    "SCHEMA_COMPUTED_BASE_QUANTITIES_V1",
+    "SCHEMA_ENVELOPE_QUANTITIES_V1",
+    "SCHEMA_SPATIAL_EVIDENCE_V1",
+    "SOURCE_COMPUTED",
+    "STATUS_COMPUTED",
+    "STRICT_SCHEMA_ENV",
+    "SpaceEvidence",
+    "SpatialEvidenceV1",
     "UnknownSchemaError",
+    "WARN_LEGACY_SCHEMA_MISSING",
     "is_legacy_computed_quantities_document",
     "is_legacy_envelope_document",
     "load_computed_base_quantities",
     "load_envelope_quantities",
+    "load_spatial_evidence",
     "migrate_computed_base_quantities_legacy_to_v1",
     "migrate_envelope_quantities_legacy_to_v1",
     "parse_computed_base_quantities",
     "parse_envelope_quantities",
+    "parse_spatial_evidence",
     "read_json_document",
     "resolve_document",
     "strict_schema_enabled",
