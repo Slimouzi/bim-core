@@ -108,6 +108,8 @@ class Containment(BaseModel):
     method: str
     overlap_ratio: float | None = Field(
         default=None,
+        ge=0.0,
+        le=1.0,
         description=(
             "Part de l'empreinte de l'objet incluse dans celle de l'espace (0..1). "
             "Renseignée pour les méthodes déduites, absente pour `ifc_declared`."

@@ -121,6 +121,28 @@ def test_methode_de_rattachement_inconnue_est_refusee():
         parse_spatial_evidence(doc)
 
 
+@pytest.mark.parametrize("ratio", [-0.1, 1.5, 4.2])
+def test_overlap_ratio_hors_bornes_est_refuse(ratio):
+    """Une part d'empreinte est une fraction, pas un nombre libre.
+
+    Un producteur qui rendrait 4,2 aurait un bug — probablement une somme de
+    recouvrements au lieu d'une union. L'accepter ferait porter l'erreur au
+    consommateur, qui n'a aucun moyen de la distinguer d'une mesure valide.
+    """
+    doc = _doc()
+    doc["objects"][0]["container"]["overlap_ratio"] = ratio
+    with pytest.raises(ContractValidationError):
+        parse_spatial_evidence(doc)
+
+
+@pytest.mark.parametrize("ratio", [0.0, 0.5, 1.0])
+def test_overlap_ratio_dans_les_bornes_est_accepte(ratio):
+    doc = _doc()
+    doc["objects"][0]["container"]["overlap_ratio"] = ratio
+    payload = parse_spatial_evidence(doc)
+    assert payload.objects[0].container.overlap_ratio == ratio
+
+
 def test_statut_de_geometrie_inconnu_est_refuse():
     doc = _doc()
     doc["objects"][0]["geometry_status"] = "peut_etre"
